@@ -1,5 +1,10 @@
 package com.robotica.clase1;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,7 +16,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 
-public class MainActivity extends ActionBarActivity implements CompoundButton.OnCheckedChangeListener {
+public class MainActivity extends ActionBarActivity implements CompoundButton.OnCheckedChangeListener, SensorEventListener {
 
 	private TextView mTextConnectionStatus;
 	private Switch mSwitch1;
@@ -22,7 +27,17 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 	private Switch mSwitch2;
 	private Switch mSwitch3;
 	private TextView hexText;
-	@Override
+
+    //acelerometro
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+
+    private float lastX=0;
+    private float lastY=0;
+    private float lastZ=0;
+
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -76,7 +91,19 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 		mSwitch3.setOnCheckedChangeListener(this);
 
 		hexText = (TextView) findViewById(R.id.hex_text);
-	}
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
+            // success! we have an accelerometer
+
+            accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+
+        } else {
+            // fail! we don't have an accelerometer!
+        }
+
+    }
 
 
 	@Override
@@ -120,4 +147,27 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 		updateHexText();
 
 	}
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        float x=event.values[0];
+        float y=event.values[1];
+        float z=event.values[2];
+
+        int deltaX=(int) (x-lastX);
+        int deltaY=(int) (y-lastY);
+        int deltaZ=(int) (z-lastZ);
+
+        lastX=x;
+        lastY=y;
+        lastZ=z;
+
+        mSeekBar.incrementProgressBy(deltaX);
+        mSeekBar2.incrementProgressBy(deltaY);
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
 }
