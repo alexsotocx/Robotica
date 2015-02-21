@@ -20,8 +20,8 @@
             android:id="@+id/nombres"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gustavo Angarita\nEl Mono\nSebastián Torres\n"
-            style="@style/TextAppearance.AppCompat.Medium"
+            android:text="Gustavo Angarita\nAndrés González\nAlexander Soto\nSebastián Torres\n"
+            style="@style/TextAppearance.AppCompat.Small"
             android:layout_below="@id/practica"/>
     <RelativeLayout
         android:layout_below="@id/nombres"
