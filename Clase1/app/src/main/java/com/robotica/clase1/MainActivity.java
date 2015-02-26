@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,19 +27,17 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 	private SeekBar mSeekBar2;
 	private Switch mSwitch2;
 	private Switch mSwitch3;
+	private Switch mSwitchAccelerometers;
 	private TextView hexText;
-
-    //acelerometro
-    private SensorManager sensorManager;
-    private Sensor accelerometer;
-
-    private float lastX=0;
-    private float lastY=0;
-    private float lastZ=0;
+	//acelerometro
+	private SensorManager sensorManager;
+	private Sensor accelerometer;
+	private boolean isAccelerometerActive = false;
+	private long lastUpdate;
 
 
-    @Override
-	protected void onCreate(Bundle savedInstanceState) {
+	@Override
+	protected void onCreate(Bundle  savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		mTextConnectionStatus = (TextView) findViewById(R.id.connection_status_text);
@@ -86,24 +85,26 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 		mSwitch1 = (Switch) findViewById(R.id.switch1);
 		mSwitch2 = (Switch) findViewById(R.id.switch2);
 		mSwitch3 = (Switch) findViewById(R.id.switch3);
+		mSwitchAccelerometers = (Switch) findViewById(R.id.switch_acceloremter);
 		mSwitch1.setOnCheckedChangeListener(this);
 		mSwitch2.setOnCheckedChangeListener(this);
 		mSwitch3.setOnCheckedChangeListener(this);
+		mSwitchAccelerometers.setOnCheckedChangeListener(this);
 
 		hexText = (TextView) findViewById(R.id.hex_text);
 
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
-            // success! we have an accelerometer
+		sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
+			// success! we have an accelerometer
 
-            accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+			accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+			sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
-        } else {
-            // fail! we don't have an accelerometer!
-        }
+		} else {
+			// fail! we don't have an accelerometer!
+		}
 
-    }
+	}
 
 
 	@Override
@@ -143,31 +144,43 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 		switch (buttonView.getId()){
 			case R.id.switch1:
 				mTextConnectionStatus.setText(isChecked? getString(R.string.on) : getString(R.string.off));
+				break;
+			case R.id.switch_acceloremter:
+				isAccelerometerActive = isChecked;
+				break;
 		}
 		updateHexText();
 
 	}
 
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        float x=event.values[0];
-        float y=event.values[1];
-        float z=event.values[2];
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		Sensor sensor = event.sensor;
+		if(sensor.getType() == Sensor.TYPE_ACCELEROMETER && isAccelerometerActive){
+			float x = event.values[0];
+			float y = event.values[1];
+			float z = event.values[2];
+//			int deltaX = (int) (x - lastX);
+//			int deltaY = (int) (y - lastY);
+//			int deltaZ = (int) (z - lastZ);
 
-        int deltaX=(int) (x-lastX);
-        int deltaY=(int) (y-lastY);
-        int deltaZ=(int) (z-lastZ);
+		//	lastX = x;
+			//lastY = y;
+			//lastZ = z;
+			long currentTime = System.currentTimeMillis();
+			if((currentTime - lastUpdate) > 100){
+				lastUpdate = currentTime;
+				mSeekBar.incrementProgressBy((int)(-x));
+				mSeekBar2.incrementProgressBy((int)(-y));
+			}
 
-        lastX=x;
-        lastY=y;
-        lastZ=z;
 
-        mSeekBar.incrementProgressBy(deltaX);
-        mSeekBar2.incrementProgressBy(deltaY);
-    }
+		}
 
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+	}
 
-    }
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+	}
 }

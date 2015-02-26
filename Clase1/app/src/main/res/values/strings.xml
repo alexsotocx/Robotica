@@ -11,5 +11,6 @@
     <string name="on">On</string>
     <string name="off">Off</string>
     <string name="status">Estado</string>
+    <string name="accelerometer">Acelerometro</string>
 
 </resources>
