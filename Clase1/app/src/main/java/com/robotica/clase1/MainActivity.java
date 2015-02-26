@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -35,14 +36,22 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 	private boolean isAccelerometerActive = false;
 	private long lastUpdate;
 
+	private TextView sensorX;
+	private TextView sensorY;
+	private TextView sensorZ;
+
 
 	@Override
 	protected void onCreate(Bundle  savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		mTextConnectionStatus = (TextView) findViewById(R.id.connection_status_text);
 		mTextProgress = (TextView) findViewById(R.id.progress1);
 		mTextProgress2 = (TextView) findViewById(R.id.progress2);
+		sensorX = (TextView) findViewById(R.id.sensorx);
+		sensorY = (TextView) findViewById(R.id.sensory);
+		sensorZ = (TextView) findViewById(R.id.sensorz);
 		mSeekBar = (SeekBar) findViewById(R.id.slider_1);
 		mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
@@ -160,18 +169,18 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 			float x = event.values[0];
 			float y = event.values[1];
 			float z = event.values[2];
-//			int deltaX = (int) (x - lastX);
-//			int deltaY = (int) (y - lastY);
-//			int deltaZ = (int) (z - lastZ);
+			sensorX.setText("X = " + x);
+			sensorY.setText("Y = " + y);
+			sensorZ.setText("Z = " + z);
 
 		//	lastX = x;
 			//lastY = y;
 			//lastZ = z;
 			long currentTime = System.currentTimeMillis();
-			if((currentTime - lastUpdate) > 100){
+			if((currentTime - lastUpdate) > 300){
 				lastUpdate = currentTime;
-				mSeekBar.incrementProgressBy((int)(-x));
-				mSeekBar2.incrementProgressBy((int)(-y));
+				mSeekBar.setProgress((int) (z * 10));
+				mSeekBar2.setProgress((int) (y * 5 + 50));
 			}
 
 
