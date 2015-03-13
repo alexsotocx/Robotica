@@ -40,16 +40,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <EditText
+                <LinearLayout
+                    android:id="@+id/ip_address_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/seek_bar_color">
+                    <EditText
                     android:id="@+id/ip_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/ip_address"
                     android:textColor="@color/abc_primary_text_disable_only_material_dark"
-                    android:textColorHint="@color/editor_hints"/>
+                    android:textColorHint="@color/editor_hints"
+                    />
+                </LinearLayout>s
+
 
                 <LinearLayout
-                    android:layout_below="@id/ip_address"
+                    android:layout_below="@id/ip_address_container"
                     android:id="@+id/linear_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
