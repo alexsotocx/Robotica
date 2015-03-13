@@ -6,26 +6,23 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.net.Socket;
-
 
 public class MainActivity extends ActionBarActivity implements CompoundButton.OnCheckedChangeListener, SensorEventListener {
 
 	private TextView mTextConnectionStatus;
 	private Switch mSwitch1;
-    private TextView mTextIp;
+	private TextView mTextIp;
 	private TextView mTextProgress;
 	private TextView mTextProgress2;
 	private SeekBar mSeekBar;
@@ -40,25 +37,19 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 	private boolean isAccelerometerActive = false;
 	private long lastUpdate;
 
-	private TextView sensorX;
-	private TextView sensorY;
-	private TextView sensorZ;
-
-    private TCPConnection connection;
+	private TCPConnection connection;
 
 
 	@Override
-	protected void onCreate(Bundle  savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		mTextConnectionStatus = (TextView) findViewById(R.id.connection_status_text);
-        mTextProgress = (TextView) findViewById(R.id.progress1);
-        mTextIp = (TextView) findViewById(R.id.ip_address);
+		mTextProgress = (TextView) findViewById(R.id.progress1);
+		mTextIp = (TextView) findViewById(R.id.ip_address);
 		mTextProgress2 = (TextView) findViewById(R.id.progress2);
-		sensorX = (TextView) findViewById(R.id.sensorx);
-		sensorY = (TextView) findViewById(R.id.sensory);
-		sensorZ = (TextView) findViewById(R.id.sensorz);
+
 		mSeekBar = (SeekBar) findViewById(R.id.slider_1);
 		mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
@@ -97,7 +88,6 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 		});
 
 
-
 		mSwitch1 = (Switch) findViewById(R.id.switch1);
 		mSwitch2 = (Switch) findViewById(R.id.switch2);
 		mSwitch3 = (Switch) findViewById(R.id.switch3);
@@ -124,13 +114,6 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_main, menu);
-		return true;
-	}
-
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
@@ -146,43 +129,43 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 	}
 
 
+	private void updateHexText() {
+		String t2 = mSwitch2.isChecked() ? "01" : "00";
+		String t3 = mSwitch3.isChecked() ? "01" : "00";
+		String s1 = (mSeekBar.getProgress() < 16 ? "0" : "") + Integer.toHexString(mSeekBar.getProgress());
+		String s2 = (mSeekBar2.getProgress() < 16 ? "0" : "") + Integer.toHexString(mSeekBar2.getProgress());
+		String current = ("7E" + t2 + t3 + s1 + s2 + "00").toUpperCase();
+		hexText.setText(current);
+		try {
+			if (connection != null) {
+				connection.client.sendMessage(current);
+			}
+		} catch (Exception e) {
+			//mTextConnectionStatus.setText("Error");
+		}
 
-	private void updateHexText(){
-		String t2 = mSwitch2.isChecked()? "01" : "00";
-		String t3 = mSwitch3.isChecked()? "01" : "00";
-		String s1 = (mSeekBar.getProgress() < 16 ? "0":"") +  Integer.toHexString(mSeekBar.getProgress());
-		String s2 = (mSeekBar2.getProgress() < 16 ? "0":"") +  Integer.toHexString(mSeekBar2.getProgress());
-		String current = ("7E  " + t2 + "  " + t3 + "  " + s1 + "  " + s2 + "  00").toUpperCase();
-        hexText.setText(current );
-	   try{
-           if(connection != null){
-                connection.client.sendMessage(current);
-           }
-       }catch (Exception e){
-
-       }
-
-    }
+	}
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		switch (buttonView.getId()){
+		switch (buttonView.getId()) {
 			case R.id.switch1:
-                if(isChecked){
-                    try {
-                        connection = new TCPConnection(mTextIp.getText().toString());
-                        connection.execute("");
-                        mTextConnectionStatus.setText("En espera");
-                    } catch (Exception e){
-
-                    }
-                }else{
-                    try{
-
-                    }catch (Exception e){
-
-                    }
-                }
+				if (isChecked) {
+					try {
+						connection = new TCPConnection(mTextIp.getText().toString());
+						connection.execute("");
+						mTextConnectionStatus.setText("En espera");
+					} catch (Exception e) {
+						mSwitch1.setChecked(false);
+						mTextConnectionStatus.setText("Error");
+					}
+				} else {
+					try {
+						mTextConnectionStatus.setText(connection.client.stopClient());
+					} catch (Throwable throwable){
+						throwable.printStackTrace();
+					}
+				}
 				break;
 			case R.id.switch_acceloremter:
 				isAccelerometerActive = isChecked;
@@ -195,19 +178,13 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 		Sensor sensor = event.sensor;
-		if(sensor.getType() == Sensor.TYPE_ACCELEROMETER && isAccelerometerActive){
+		if (sensor.getType() == Sensor.TYPE_ACCELEROMETER && isAccelerometerActive) {
 			float x = event.values[0];
 			float y = event.values[1];
 			float z = event.values[2];
-			sensorX.setText("X = " + x);
-			sensorY.setText("Y = " + y);
-			sensorZ.setText("Z = " + z);
 
-		//	lastX = x;
-			//lastY = y;
-			//lastZ = z;
 			long currentTime = System.currentTimeMillis();
-			if((currentTime - lastUpdate) > 300){
+			if ((currentTime - lastUpdate) > 300) {
 				lastUpdate = currentTime;
 				mSeekBar.setProgress((int) (z * 10));
 				mSeekBar2.setProgress((int) (y * 5 + 50));
@@ -225,45 +202,43 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 	}
 
 
+	private class TCPConnection extends AsyncTask<String, String, TCPClient> implements TCPClient.OnMessageReceived {
+		private String ipAddress;
+		private TCPClient client;
 
-    private class TCPConnection extends AsyncTask<String, String, TCPClient> implements TCPClient.OnMessageReceived {
-        private String ipAddress;
-        private TCPClient client;
-
-        public TCPConnection(String ipAddress){
-            this.ipAddress = ipAddress;
-        }
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(TCPClient tcpClient) {
-            super.onPostExecute(tcpClient);
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-               sensorX.setText(values[0]);
-        }
+		public TCPConnection(String ipAddress) {
+			this.ipAddress = ipAddress;
+		}
 
 
-        @Override
-        public void messageReceived(String message) {
-            publishProgress(message);
-            Log.d("TCP message", message);
-        }
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+		}
 
-        @Override
-        protected TCPClient doInBackground(String... params) {
-            client = new TCPClient(ipAddress, this);
-            client.run();
+		@Override
+		protected void onPostExecute(TCPClient tcpClient) {
+			super.onPostExecute(tcpClient);
+		}
 
-            return client;
-        }
-    }
+		@Override
+		protected void onProgressUpdate(String... values) {
+
+		}
+
+
+		@Override
+		public void messageReceived(String message) {
+			publishProgress(message);
+			Log.d("TCP message", message);
+		}
+
+		@Override
+		protected TCPClient doInBackground(String... params) {
+			client = new TCPClient(ipAddress, this);
+			client.run();
+			return client;
+		}
+	}
 
 }
