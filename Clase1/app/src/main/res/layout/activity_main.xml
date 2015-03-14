@@ -39,7 +39,7 @@
                 android:layout_below="@id/nombres"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-
+                <!-- Texto de conexión ... IP Address -->
                 <LinearLayout
                     android:id="@+id/ip_address_container"
                     android:layout_width="match_parent"
@@ -52,8 +52,9 @@
                     android:hint="@string/ip_address"
                     android:textColor="@color/abc_primary_text_disable_only_material_dark"
                     android:textColorHint="@color/editor_hints"
+
                     />
-                </LinearLayout>s
+                </LinearLayout>
 
 
                 <LinearLayout

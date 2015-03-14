@@ -35,6 +35,7 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 	private SensorManager sensorManager;
 	private Sensor accelerometer;
 	private boolean isAccelerometerActive = false;
+	private boolean isConnected = false;
 	private long lastUpdate;
 
 	private TCPConnection connection;
@@ -49,7 +50,6 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 		mTextProgress = (TextView) findViewById(R.id.progress1);
 		mTextIp = (TextView) findViewById(R.id.ip_address);
 		mTextProgress2 = (TextView) findViewById(R.id.progress2);
-
 		mSeekBar = (SeekBar) findViewById(R.id.slider_1);
 		mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
@@ -86,8 +86,6 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 
 			}
 		});
-
-
 		mSwitch1 = (Switch) findViewById(R.id.switch1);
 		mSwitch2 = (Switch) findViewById(R.id.switch2);
 		mSwitch3 = (Switch) findViewById(R.id.switch3);
@@ -113,20 +111,6 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 	}
 
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-
-		//noinspection SimplifiableIfStatement
-		if (id == R.id.action_settings) {
-			return true;
-		}
-
-		return super.onOptionsItemSelected(item);
-	}
 
 
 	private void updateHexText() {
@@ -138,6 +122,7 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 		hexText.setText(current);
 		try {
 			if (connection != null) {
+				mTextConnectionStatus.setText(connection.client.conection());
 				connection.client.sendMessage(current);
 			}
 		} catch (Exception e) {
@@ -171,7 +156,8 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 				isAccelerometerActive = isChecked;
 				break;
 		}
-		updateHexText();
+		if(buttonView.getId() != R.id.switch1)
+			updateHexText();
 
 	}
 
@@ -235,7 +221,7 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 
 		@Override
 		protected TCPClient doInBackground(String... params) {
-			client = new TCPClient(ipAddress, this);
+			client = new TCPClient(ipAddress, this, mTextConnectionStatus);
 			client.run();
 			return client;
 		}
