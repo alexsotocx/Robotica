@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Clase de Robotica</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="nombre">Nombre</string>
-    <string name="ip_address">Dirección IP: 192.168.1.86</string>
-    <string name="connect">Conectar</string>
-    <string name="disconnect">Desconectar</string>
-    <string name="on">On</string>
-    <string name="off">Off</string>
-    <string name="status">Estado</string>
-    <string name="accelerometer">Acelerometro</string>
+  <string name="app_name">Clase de Robotica</string>
+  <string name="hello_world">Hello world!</string>
+  <string name="action_settings">Settings</string>
+  <string name="nombre">Nombre</string>
+  <string name="ip_address">Dirección IP: 192.168.1.86</string>
+  <string name="connect">Conectar</string>
+  <string name="disconnect">Desconectar</string>
+  <string name="on">On</string>
+  <string name="off">Off</string>
+  <string name="status">Estado</string>
+  <string name="accelerometer">Acelerometro</string>
 
 </resources>
