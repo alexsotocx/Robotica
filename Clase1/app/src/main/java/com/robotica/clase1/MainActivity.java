@@ -8,6 +8,7 @@ import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
@@ -15,19 +16,21 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.gc.materialdesign.views.Slider;
+
 
 public class MainActivity extends ActionBarActivity implements CompoundButton.OnCheckedChangeListener, SensorEventListener {
 
   private TextView mTextConnectionStatus;
-  private Switch mSwitch1;
+  private SwitchCompat mSwitch1;
   private TextView mTextIp;
   private TextView mTextProgress;
   private TextView mTextProgress2;
   private SeekBar mSeekBar;
   private SeekBar mSeekBar2;
-  private Switch mSwitch2;
-  private Switch mSwitch3;
-  private Switch mSwitchAccelerometers;
+  private SwitchCompat mSwitch2;
+  private SwitchCompat mSwitch3;
+  private SwitchCompat mSwitchAccelerometers;
   private TextView hexText;
   //acelerometro
   private SensorManager sensorManager;
@@ -84,10 +87,10 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
 
       }
     });
-    mSwitch1 = (Switch) findViewById(R.id.switch1);
-    mSwitch2 = (Switch) findViewById(R.id.switch2);
-    mSwitch3 = (Switch) findViewById(R.id.switch3);
-    mSwitchAccelerometers = (Switch) findViewById(R.id.switch_acceloremter);
+    mSwitch1 = (SwitchCompat) findViewById(R.id.switch1);
+    mSwitch2 = (SwitchCompat) findViewById(R.id.switch2);
+    mSwitch3 = (SwitchCompat) findViewById(R.id.switch3);
+    mSwitchAccelerometers = (SwitchCompat) findViewById(R.id.switch_acceloremter);
     mSwitch1.setOnCheckedChangeListener(this);
     mSwitch2.setOnCheckedChangeListener(this);
     mSwitch3.setOnCheckedChangeListener(this);
@@ -116,10 +119,15 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
     String s2 = (mSeekBar2.getProgress() < 16 ? "0" : "") + Integer.toHexString(mSeekBar2.getProgress());
     String current = ("7E" + t2 + t3 + s1 + s2 + "00").toUpperCase();
     hexText.setText(current);
+    char _7E = (char) 126;
+    char B1 = (char) (mSwitch2.isChecked() ? 1:0);
+    char B2 = (char) (mSwitch3.isChecked() ? 1:0);
+    char S1 = (char) mSeekBar.getProgress();
+    char S2 = (char) mSeekBar2.getProgress();
     try {
       if (connection != null) {
         mTextConnectionStatus.setText(connection.client.conection());
-        connection.client.sendMessage(current);
+        connection.client.sendMessage(""+ _7E + B1 + B2 + S1 + S2);
       }
     } catch (Exception e) {
       //mTextConnectionStatus.setText("Error");

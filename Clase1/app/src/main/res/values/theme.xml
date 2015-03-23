@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <style name="AppTheme" parent="Theme.AppCompat">
+  <!-- Base application theme. -->
+  <style name="AppTheme" parent="AppTheme.Base"/>
+
+  <style name="AppTheme.Base" parent="Theme.AppCompat.Light">
+    <!-- Customize your theme here. -->
+
     <!-- colorPrimary is used for the default action bar background -->
     <item name="colorPrimary">@color/action_bar_color</item>
 
     <!-- colorPrimaryDark is used for the status bar -->
     <item name="colorPrimaryDark">@color/action_bar_color</item>
 
-    <!-- colorAccent is used as the default value for colorControlActivated,
-             which is used to tint widgets -->
+    <!-- colorAccent is used as the default value for colorControlActivated
+         which is used to tint widgets -->
     <item name="colorAccent">@color/accent_color</item>
 
     <!-- You can also set colorControlNormal, colorControlActivated
-             colorControlHighlight, and colorSwitchThumbNormal. -->
-    <item name="colorControlNormal">@color/color_normal</item>
+         colorControlHighlight & colorSwitchThumbNormal. -->
+    <item name="colorControlHighlight">@color/accent_color</item>
   </style>
 
 </resources>
