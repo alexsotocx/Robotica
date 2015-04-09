@@ -1,0 +1,73 @@
+004     @WRITE_PROGRAM_MEMORY8.P1
+004-005 @READ_PROGRAM_MEMORY8.P2
+015     CCP_1
+015     CCP_1_LOW
+016     CCP_1_HIGH
+01B     CCP_2
+01B     CCP_2_LOW
+01C     CCP_2_HIGH
+020     @TRIS_C
+021     main.value1
+022     main.value2
+023     main.pwm1
+024     main.pwm2
+025-026 @ITOF.P1
+025-028 @SFTOI.P2
+025-028 @MULFF.P3
+029-02C @MULFF.P1
+02D     @MULFF.@SCRATCH1
+02E     @MULFF.@SCRATCH2
+02F     @MULFF.@SCRATCH3
+030     @MULFF.@SCRATCH4
+031     @MULFF.@SCRATCH5
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+107.6   C1OUT
+108.6   C2OUT
+10D-10E @READ_PROGRAM_MEMORY8.P1
+10D-10E @WRITE_PROGRAM_MEMORY8.P2
+
+ROM Allocation:
+00B5  main
+0004  @ITOF
+0021  @MULFF
+0096  @SFTOI
+00B5  @cinit
+
+
+User Memory space: 
+
+User Memory space: 
+
+Project Directory:
+    C:\Users\Alexander.AlexWindows\Documents\robotica\Robotica\circuitos\clase2\
+
+Project Files:
+    main.c
+    main.h
+    ..\..\..\..\..\..\..\Program Files (x86)\PICC\devices\16F887.h
+
+Units:
+    C:\Users\Alexander.AlexWindows\Documents\robotica\Robotica\circuitos\clase2\main (main)
+
+Compiler Settings:
+    Processor:      PIC16F887
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    Errors:      main.err
+    Ext Symbols: main.esym
+    INHX8:       main.hex
+    Symbols:     main.sym
+    List:        main.lst
+    Debug/COFF:  main.cof
+    Project:     main.PJT
+    Call Tree:   main.tre
+    Statistics:  main.sta
