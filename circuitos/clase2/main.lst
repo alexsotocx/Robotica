@@ -1,4 +1,4 @@
-CCS PCM C Compiler, Version 4.110, 5967               09-abr.-15 16:05
+CCS PCM C Compiler, Version 4.110, 5967               16-abr.-15 19:15
 
                Filename: C:\Users\Alexander.AlexWindows\Documents\robotica\Robotica\circuitos\clase2\main.lst
 
@@ -13,7 +13,6 @@ CCS PCM C Compiler, Version 4.110, 5967               09-abr.-15 16:05
 0001:  MOVWF  0A
 0002:  GOTO   0B5
 0003:  NOP
-.................... #include <main.h> 
 .................... #include <16F887.h> 
 .................... //////// Standard Header file for the PIC16F887 device //////////////// 
 .................... #device PIC16F887 
@@ -21,25 +20,21 @@ CCS PCM C Compiler, Version 4.110, 5967               09-abr.-15 16:05
 ....................  
 .................... #device adc=8 
 ....................  
-.................... #FUSES NOWDT                 	//No Watch Dog Timer 
-.................... #FUSES INTRC_IO              	//Internal RC Osc, no CLKOUT 
-.................... #FUSES NOPUT                 	//No Power Up Timer 
-.................... #FUSES NOMCLR                	//Master Clear pin used for I/O 
-.................... #FUSES NOPROTECT             	//Code not protected from reading 
-.................... #FUSES NOCPD                 	//No EE protection 
-.................... #FUSES NOBROWNOUT            	//No brownout reset 
-.................... #FUSES NOIESO                	//Internal External Switch Over mode disabled 
-.................... #FUSES NOFCMEN               	//Fail-safe clock monitor disabled 
-.................... #FUSES NOLVP                 	//No low voltage prgming, B3(PIC16) or B5(PIC18) used for I/O 
-.................... #FUSES NODEBUG               	//No Debug mode for ICD 
-.................... #FUSES NOWRT                 	//Program memory not write protected 
-.................... #FUSES BORV40                	//Brownout reset at 4.0V 
+.................... #FUSES NOWDT                    //No Watch Dog Timer 
+.................... #FUSES INTRC_IO                 //Internal RC Osc, no CLKOUT 
+.................... #FUSES NOPUT                    //No Power Up Timer 
+.................... #FUSES NOMCLR                   //Master Clear pin used for I/O 
+.................... #FUSES NOPROTECT                //Code not protected from reading 
+.................... #FUSES NOCPD                    //No EE protection 
+.................... #FUSES NOBROWNOUT               //No brownout reset 
+.................... #FUSES NOIESO                   //Internal External Switch Over mode disabled 
+.................... #FUSES NOFCMEN                  //Fail-safe clock monitor disabled 
+.................... #FUSES NOLVP                    //No low voltage prgming, B3(PIC16) or B5(PIC18) used for I/O 
+.................... #FUSES NODEBUG                  //No Debug mode for ICD 
+.................... #FUSES NOWRT                    //Program memory not write protected 
+.................... #FUSES BORV40                   //Brownout reset at 4.0V 
 ....................  
 .................... #use delay(int=4000000) 
-....................  
-....................  
-....................  
-....................  
 ....................  
 ....................  
 .................... void main() 

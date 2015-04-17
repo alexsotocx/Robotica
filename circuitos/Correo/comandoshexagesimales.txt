@@ -1,0 +1,67 @@
+
+Hexagesimal   ASCII   Decimal
+
+0x09 	       Tab	9
+0x0D	      Enter	13
+0x20          Espacio   32
+0x21            !       33
+0x22            "       34
+0x23            #       35
+0x24            $       36
+0x25            %       37
+0x26            &       38
+0x27		'	39
+0x28		(	40
+0x29		)	41
+
+0x32		2	50
+
+0x41		A	65
+0x42		B	66
+0x43		C	67
+0x44		D	68
+0x45		E	69
+0x46		F	70
+0x47		G	71
+0x48		H	72
+0x49		I	73
+0x4A		J	74
+ .		.	 .
+ .		.	 .
+0x5A		Z	90
+
+0x64		d	100
+0x7E            ~       126
+
+
+Paquetes de datos de ejemplo: la "x" es cualquier tecla
+
+adelante (Hex)      Teclas(ASCII)
+
+7E x x 0x64 0x32     ~00d2
+
+adelante derecha
+
+7E x x 0x64 0x64     ~00dd
+
+adelante dizquierda
+
+7E x x 0x64 0x09     ~00dTab
+
+retrocede     
+
+7E x x 0x09 0x32     ~00Tab2
+
+retrocede derecha
+
+7E x x 0x09 0x64     ~00Tabd
+
+retrocede izquierda
+
+7E x x 0x09 0x09     ~00TabTab
+
+
+
+
+
+

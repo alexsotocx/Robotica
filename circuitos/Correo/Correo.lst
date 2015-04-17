@@ -1,0 +1,723 @@
+CCS PCM C Compiler, Version 4.110, 5967               16-abr.-15 20:12
+
+               Filename: C:\Users\Alexander.AlexWindows\Documents\robotica\Robotica\circuitos\Correo\Correo.lst
+
+               ROM used: 690 words (8%)
+                         Largest free fragment is 2048
+               RAM used: 20 (5%) at main() level
+                         40 (11%) worst case
+               Stack:    2 worst case (1 in main + 1 for interrupts)
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   0FE
+0003:  NOP
+0004:  MOVWF  7F
+0005:  SWAPF  03,W
+0006:  CLRF   03
+0007:  MOVWF  21
+0008:  MOVF   0A,W
+0009:  MOVWF  20
+000A:  CLRF   0A
+000B:  MOVF   04,W
+000C:  MOVWF  22
+000D:  MOVF   77,W
+000E:  MOVWF  23
+000F:  MOVF   78,W
+0010:  MOVWF  24
+0011:  MOVF   79,W
+0012:  MOVWF  25
+0013:  MOVF   7A,W
+0014:  MOVWF  26
+0015:  BCF    03.7
+0016:  BCF    03.5
+0017:  MOVLW  8C
+0018:  MOVWF  04
+0019:  BTFSS  00.5
+001A:  GOTO   01D
+001B:  BTFSC  0C.5
+001C:  GOTO   02E
+001D:  MOVF   22,W
+001E:  MOVWF  04
+001F:  MOVF   23,W
+0020:  MOVWF  77
+0021:  MOVF   24,W
+0022:  MOVWF  78
+0023:  MOVF   25,W
+0024:  MOVWF  79
+0025:  MOVF   26,W
+0026:  MOVWF  7A
+0027:  MOVF   20,W
+0028:  MOVWF  0A
+0029:  SWAPF  21,W
+002A:  MOVWF  03
+002B:  SWAPF  7F,F
+002C:  SWAPF  7F,W
+002D:  RETFIE
+002E:  BCF    0A.3
+002F:  BCF    0A.4
+0030:  GOTO   031
+.................... #include <Correo.h> 
+.................... #include <16F887.h> 
+.................... //////// Standard Header file for the PIC16F887 device //////////////// 
+.................... #device PIC16F887 
+.................... #list 
+....................  
+.................... #device adc=8 
+....................  
+.................... #FUSES NOWDT                 	//No Watch Dog Timer 
+.................... #FUSES INTRC_IO              	//Internal RC Osc, no CLKOUT 
+.................... #FUSES NOPUT                 	//No Power Up Timer 
+.................... #FUSES NOMCLR                	//Master Clear pin used for I/O 
+.................... #FUSES NOPROTECT             	//Code not protected from reading 
+.................... #FUSES NOCPD                 	//No EE protection 
+.................... #FUSES NOBROWNOUT            	//No brownout reset 
+.................... #FUSES NOIESO                	//Internal External Switch Over mode disabled 
+.................... #FUSES NOFCMEN               	//Fail-safe clock monitor disabled 
+.................... #FUSES NOLVP                 	//No low voltage prgming, B3(PIC16) or B5(PIC18) used for I/O 
+.................... #FUSES NODEBUG               	//No Debug mode for ICD 
+.................... #FUSES NOWRT                 	//Program memory not write protected 
+.................... #FUSES BORV40                	//Brownout reset at 4.0V 
+....................  
+.................... #use delay(int=4000000) 
+....................  
+....................  
+.................... #use rs232(baud=9600, xmit=PIN_C6,rcv=PIN_C7) 
+.................... // Velocidad,pin transmision, pin recepcion 
+....................  
+.................... char SD,Datos[4]; 
+.................... int i; 
+....................  
+.................... //Interrupción por recepcion  
+.................... //Cada vez que recibe un 7E el sistema se interrumpe y almacena 
+.................... //el resto de la cadena por separado 
+.................... #INT_RDA 
+.................... void serial(){ 
+.................... //Obtenemos el primer dato 
+.................... SD=getc(); 
+*
+0031:  BTFSS  0C.5
+0032:  GOTO   031
+0033:  MOVF   1A,W
+0034:  MOVWF  27
+.................... //Preguntamos si es el inicio de la trama de comunicación 
+.................... if(SD=0x7E){ 
+0035:  MOVLW  7E
+0036:  MOVWF  27
+0037:  MOVF   27,F
+0038:  BTFSC  03.2
+0039:  GOTO   049
+....................    //Obtenemos el resto de los datos 
+....................      for(i=0; i<4; ++i){ 
+003A:  CLRF   2C
+003B:  MOVF   2C,W
+003C:  SUBLW  03
+003D:  BTFSS  03.0
+003E:  GOTO   049
+....................       Datos[i]=getc(); 
+003F:  MOVLW  28
+0040:  ADDWF  2C,W
+0041:  MOVWF  04
+0042:  BCF    03.7
+0043:  BTFSS  0C.5
+0044:  GOTO   043
+0045:  MOVF   1A,W
+0046:  MOVWF  00
+....................      } 
+0047:  INCF   2C,F
+0048:  GOTO   03B
+....................    } 
+.................... } 
+....................  
+0049:  BCF    0C.5
+004A:  BCF    0A.3
+004B:  BCF    0A.4
+004C:  GOTO   01D
+.................... void main() 
+.................... { 
+*
+00FE:  CLRF   04
+00FF:  BCF    03.7
+0100:  MOVLW  1F
+0101:  ANDWF  03,F
+0102:  MOVLW  61
+0103:  BSF    03.5
+0104:  MOVWF  0F
+0105:  MOVF   0F,W
+0106:  BSF    03.6
+0107:  BCF    07.3
+0108:  MOVLW  19
+0109:  BCF    03.6
+010A:  MOVWF  19
+010B:  MOVLW  A6
+010C:  MOVWF  18
+010D:  MOVLW  90
+010E:  BCF    03.5
+010F:  MOVWF  18
+0110:  MOVLW  FF
+0111:  MOVWF  2D
+0112:  BSF    03.5
+0113:  BSF    03.6
+0114:  MOVF   09,W
+0115:  ANDLW  C0
+0116:  MOVWF  09
+0117:  BCF    03.6
+0118:  BCF    1F.4
+0119:  BCF    1F.5
+011A:  MOVLW  00
+011B:  BSF    03.6
+011C:  MOVWF  08
+011D:  BCF    03.5
+011E:  CLRF   07
+011F:  CLRF   08
+0120:  CLRF   09
+....................    //Permitir interrupciones en el microcontrolador 
+....................    enable_interrupts(GLOBAL); 
+0121:  MOVLW  C0
+0122:  BCF    03.6
+0123:  IORWF  0B,F
+....................    enable_interrupts(INT_RDA); 
+0124:  BSF    03.5
+0125:  BSF    0C.5
+....................    setup_adc_ports(sAN1|sAN2|VSS_VDD); 
+0126:  BSF    03.6
+0127:  MOVF   09,W
+0128:  ANDLW  C0
+0129:  MOVWF  09
+012A:  BCF    03.6
+012B:  BCF    1F.4
+012C:  BCF    1F.5
+012D:  MOVLW  06
+012E:  BSF    03.6
+012F:  MOVWF  08
+....................    setup_adc(ADC_CLOCK_INTERNAL); 
+0130:  BCF    03.5
+0131:  BCF    03.6
+0132:  BSF    1F.6
+0133:  BSF    1F.7
+0134:  BSF    03.5
+0135:  BCF    1F.7
+0136:  BCF    03.5
+0137:  BSF    1F.0
+....................    setup_spi(SPI_SS_DISABLED); 
+0138:  BCF    14.5
+0139:  BCF    2D.5
+013A:  MOVF   2D,W
+013B:  BSF    03.5
+013C:  MOVWF  07
+013D:  BCF    03.5
+013E:  BSF    2D.4
+013F:  MOVF   2D,W
+0140:  BSF    03.5
+0141:  MOVWF  07
+0142:  BCF    03.5
+0143:  BCF    2D.3
+0144:  MOVF   2D,W
+0145:  BSF    03.5
+0146:  MOVWF  07
+0147:  MOVLW  01
+0148:  BCF    03.5
+0149:  MOVWF  14
+014A:  MOVLW  00
+014B:  BSF    03.5
+014C:  MOVWF  14
+....................    setup_timer_0(RTCC_INTERNAL|RTCC_DIV_4); 
+014D:  MOVF   01,W
+014E:  ANDLW  C0
+014F:  IORLW  01
+0150:  MOVWF  01
+....................    setup_timer_1(T1_DISABLED); 
+0151:  BCF    03.5
+0152:  CLRF   10
+....................    setup_timer_2(T2_DIV_BY_16,255,1); 
+0153:  MOVLW  00
+0154:  MOVWF  78
+0155:  IORLW  06
+0156:  MOVWF  12
+0157:  MOVLW  FF
+0158:  BSF    03.5
+0159:  MOVWF  12
+....................    setup_ccp1(CCP_PWM); 
+015A:  BCF    03.5
+015B:  BCF    2D.2
+015C:  MOVF   2D,W
+015D:  BSF    03.5
+015E:  MOVWF  07
+015F:  BCF    03.5
+0160:  BCF    07.2
+0161:  BSF    03.5
+0162:  BCF    09.6
+0163:  MOVLW  0C
+0164:  BCF    03.5
+0165:  MOVWF  17
+0166:  BSF    03.5
+0167:  CLRF   1B
+0168:  CLRF   1C
+0169:  MOVLW  01
+016A:  MOVWF  1D
+....................    setup_ccp2(CCP_PWM); 
+016B:  BCF    03.5
+016C:  BCF    2D.1
+016D:  MOVF   2D,W
+016E:  BSF    03.5
+016F:  MOVWF  07
+0170:  BCF    03.5
+0171:  BCF    07.1
+0172:  MOVLW  0C
+0173:  MOVWF  1D
+....................    set_pwm1_duty(0); 
+0174:  CLRF   15
+....................    set_pwm2_duty(0); 
+0175:  CLRF   1B
+....................    setup_comparator(NC_NC_NC_NC);// This device COMP currently not supported by the PICWizard 
+0176:  BSF    03.6
+0177:  CLRF   07
+0178:  CLRF   08
+0179:  CLRF   09
+....................    SET_TRIS_D( 0b00000000 ); 
+017A:  MOVLW  00
+017B:  BSF    03.5
+017C:  BCF    03.6
+017D:  MOVWF  08
+....................     
+....................    //Condiciones iniciales para que el carrito no salga disparado 
+....................    Datos[2]=50; 
+017E:  MOVLW  32
+017F:  BCF    03.5
+0180:  MOVWF  2A
+....................    Datos[3]=50; 
+0181:  MOVWF  2B
+....................  
+....................    //TODO: User Code 
+....................    int value1,value2,PWM1,PWM2;   
+....................    int duty1,duty2; 
+....................     
+....................    while(1){    
+....................    /* 
+....................    set_adc_channel(1); 
+....................    delay_us(20); 
+....................    value1 = read_adc(); 
+....................     
+....................    set_adc_channel(2); 
+....................    delay_us(20); 
+....................    value2 = read_adc(); 
+....................    */ 
+....................    value1=Datos[2]; 
+0182:  MOVF   2A,W
+0183:  MOVWF  2E
+....................    value2=Datos[3]; 
+0184:  MOVF   2B,W
+0185:  MOVWF  2F
+.................... ///////////////////////////// 
+.................... //se necesitara luego 
+.................... ///////////////////////////// 
+.................... //Pasa 0-100 => 0-255; 
+....................  PWM1=(value1*(255.0/100)); 
+0186:  CLRF   35
+0187:  MOVF   2E,W
+0188:  MOVWF  34
+0189:  CALL   04D
+018A:  MOVF   7A,W
+018B:  MOVWF  37
+018C:  MOVF   79,W
+018D:  MOVWF  36
+018E:  MOVF   78,W
+018F:  MOVWF  35
+0190:  MOVF   77,W
+0191:  MOVWF  34
+0192:  MOVLW  33
+0193:  MOVWF  3B
+0194:  MOVWF  3A
+0195:  MOVLW  23
+0196:  MOVWF  39
+0197:  MOVLW  80
+0198:  MOVWF  38
+0199:  CALL   06A
+019A:  MOVF   7A,W
+019B:  MOVWF  37
+019C:  MOVF   79,W
+019D:  MOVWF  36
+019E:  MOVF   78,W
+019F:  MOVWF  35
+01A0:  MOVF   77,W
+01A1:  MOVWF  34
+01A2:  CALL   0DF
+01A3:  MOVF   78,W
+01A4:  MOVWF  30
+....................  PWM2=(value2*(255.0/100)); 
+01A5:  CLRF   35
+01A6:  MOVF   2F,W
+01A7:  MOVWF  34
+01A8:  CALL   04D
+01A9:  MOVF   7A,W
+01AA:  MOVWF  37
+01AB:  MOVF   79,W
+01AC:  MOVWF  36
+01AD:  MOVF   78,W
+01AE:  MOVWF  35
+01AF:  MOVF   77,W
+01B0:  MOVWF  34
+01B1:  MOVLW  33
+01B2:  MOVWF  3B
+01B3:  MOVWF  3A
+01B4:  MOVLW  23
+01B5:  MOVWF  39
+01B6:  MOVLW  80
+01B7:  MOVWF  38
+01B8:  CALL   06A
+01B9:  MOVF   7A,W
+01BA:  MOVWF  37
+01BB:  MOVF   79,W
+01BC:  MOVWF  36
+01BD:  MOVF   78,W
+01BE:  MOVWF  35
+01BF:  MOVF   77,W
+01C0:  MOVWF  34
+01C1:  CALL   0DF
+01C2:  MOVF   78,W
+01C3:  MOVWF  31
+.................... /////////////////////////////  
+....................   /*  PWM1=value1; 
+....................       PWM2=value2; 
+....................   */ 
+.................... //Analizar los 6 casos propuestos a continuacion y revisar  
+.................... //como funcionan en la simulacion 
+....................    
+.................... //avanza hacia adelante 
+....................    if(PWM1>128 && PWM2>120 && PWM2<136 ){ 
+01C4:  MOVF   30,W
+01C5:  SUBLW  80
+01C6:  BTFSC  03.0
+01C7:  GOTO   1F0
+01C8:  MOVF   31,W
+01C9:  SUBLW  78
+01CA:  BTFSC  03.0
+01CB:  GOTO   1F0
+01CC:  MOVF   31,W
+01CD:  SUBLW  87
+01CE:  BTFSS  03.0
+01CF:  GOTO   1F0
+....................     
+....................    output_low(PIN_D1); // apagar primero antes de prender otro 
+01D0:  BSF    03.5
+01D1:  BCF    08.1
+01D2:  BCF    03.5
+01D3:  BCF    08.1
+....................    output_high(PIN_D0);  
+01D4:  BSF    03.5
+01D5:  BCF    08.0
+01D6:  BCF    03.5
+01D7:  BSF    08.0
+....................    output_low(PIN_D3); 
+01D8:  BSF    03.5
+01D9:  BCF    08.3
+01DA:  BCF    03.5
+01DB:  BCF    08.3
+....................    output_high(PIN_D2); 
+01DC:  BSF    03.5
+01DD:  BCF    08.2
+01DE:  BCF    03.5
+01DF:  BSF    08.2
+....................     
+....................    //calculo de la velocidad de cada motor 
+....................    duty1=(PWM1-128)*2; 
+01E0:  MOVLW  80
+01E1:  SUBWF  30,W
+01E2:  MOVWF  77
+01E3:  BCF    03.0
+01E4:  RLF    77,W
+01E5:  MOVWF  32
+....................    duty2=(PWM1-128)*2; 
+01E6:  MOVLW  80
+01E7:  SUBWF  30,W
+01E8:  MOVWF  77
+01E9:  BCF    03.0
+01EA:  RLF    77,W
+01EB:  MOVWF  33
+....................    set_pwm1_duty(duty1);   
+01EC:  MOVF   32,W
+01ED:  MOVWF  15
+....................    set_pwm2_duty(duty2);   
+01EE:  MOVF   33,W
+01EF:  MOVWF  1B
+....................    }  
+....................     
+.................... //Avanza a la derecha    
+....................    if(PWM1>=128 && PWM2>=136){ 
+01F0:  MOVF   30,W
+01F1:  SUBLW  7F
+01F2:  BTFSC  03.0
+01F3:  GOTO   214
+01F4:  MOVF   31,W
+01F5:  SUBLW  87
+01F6:  BTFSC  03.0
+01F7:  GOTO   214
+....................     
+....................    output_low(PIN_D1); // apagar primero antes de prender otro 
+01F8:  BSF    03.5
+01F9:  BCF    08.1
+01FA:  BCF    03.5
+01FB:  BCF    08.1
+....................    output_high(PIN_D0);  
+01FC:  BSF    03.5
+01FD:  BCF    08.0
+01FE:  BCF    03.5
+01FF:  BSF    08.0
+....................    output_low(PIN_D3); 
+0200:  BSF    03.5
+0201:  BCF    08.3
+0202:  BCF    03.5
+0203:  BCF    08.3
+....................    output_high(PIN_D2); 
+0204:  BSF    03.5
+0205:  BCF    08.2
+0206:  BCF    03.5
+0207:  BSF    08.2
+....................     
+....................    //calculo de la velocidad de cada motor 
+....................    duty1=PWM2-136+PWM1-128; 
+0208:  MOVLW  88
+0209:  SUBWF  31,W
+020A:  ADDWF  30,W
+020B:  ADDLW  80
+020C:  MOVWF  32
+....................    duty2=PWM1-128 ; 
+020D:  MOVLW  80
+020E:  SUBWF  30,W
+020F:  MOVWF  33
+....................    set_pwm1_duty(duty1);   
+0210:  MOVF   32,W
+0211:  MOVWF  15
+....................    set_pwm2_duty(duty2);  
+0212:  MOVF   33,W
+0213:  MOVWF  1B
+....................    } 
+....................         
+.................... //Avanza a la izquierda   
+....................    if(PWM1>=128 && PWM2<=120){ 
+0214:  MOVF   30,W
+0215:  SUBLW  7F
+0216:  BTFSC  03.0
+0217:  GOTO   238
+0218:  MOVF   31,W
+0219:  SUBLW  78
+021A:  BTFSS  03.0
+021B:  GOTO   238
+....................     
+....................    output_low(PIN_D1); // apagar primero antes de prender otro 
+021C:  BSF    03.5
+021D:  BCF    08.1
+021E:  BCF    03.5
+021F:  BCF    08.1
+....................    output_high(PIN_D0);  
+0220:  BSF    03.5
+0221:  BCF    08.0
+0222:  BCF    03.5
+0223:  BSF    08.0
+....................    output_low(PIN_D3); 
+0224:  BSF    03.5
+0225:  BCF    08.3
+0226:  BCF    03.5
+0227:  BCF    08.3
+....................    output_high(PIN_D2); 
+0228:  BSF    03.5
+0229:  BCF    08.2
+022A:  BCF    03.5
+022B:  BSF    08.2
+....................     
+....................    //calculo de la velocidad de cada motor 
+....................    duty1=(PWM1-128); 
+022C:  MOVLW  80
+022D:  SUBWF  30,W
+022E:  MOVWF  32
+....................    duty2=(120-PWM2+PWM1-128); 
+022F:  MOVF   31,W
+0230:  SUBLW  78
+0231:  ADDWF  30,W
+0232:  ADDLW  80
+0233:  MOVWF  33
+....................    set_pwm1_duty(duty1);   
+0234:  MOVF   32,W
+0235:  MOVWF  15
+....................    set_pwm2_duty(duty2);         
+0236:  MOVF   33,W
+0237:  MOVWF  1B
+....................    }  
+....................     
+.................... //retrocede 
+....................    if(PWM1<128 && PWM2>120 && PWM2<136 ){    
+0238:  MOVF   30,W
+0239:  SUBLW  7F
+023A:  BTFSS  03.0
+023B:  GOTO   264
+023C:  MOVF   31,W
+023D:  SUBLW  78
+023E:  BTFSC  03.0
+023F:  GOTO   264
+0240:  MOVF   31,W
+0241:  SUBLW  87
+0242:  BTFSS  03.0
+0243:  GOTO   264
+....................     
+....................    output_low(PIN_D0); // apagar primero antes de prender otro 
+0244:  BSF    03.5
+0245:  BCF    08.0
+0246:  BCF    03.5
+0247:  BCF    08.0
+....................    output_high(PIN_D1);   
+0248:  BSF    03.5
+0249:  BCF    08.1
+024A:  BCF    03.5
+024B:  BSF    08.1
+....................    output_low(PIN_D2); 
+024C:  BSF    03.5
+024D:  BCF    08.2
+024E:  BCF    03.5
+024F:  BCF    08.2
+....................    output_high(PIN_D3); 
+0250:  BSF    03.5
+0251:  BCF    08.3
+0252:  BCF    03.5
+0253:  BSF    08.3
+....................     
+....................    //calculo de la velocidad de cada motor 
+....................    duty1=(127-PWM1)*2; 
+0254:  MOVF   30,W
+0255:  SUBLW  7F
+0256:  MOVWF  77
+0257:  BCF    03.0
+0258:  RLF    77,W
+0259:  MOVWF  32
+....................    duty2=(127-PWM1)*2; 
+025A:  MOVF   30,W
+025B:  SUBLW  7F
+025C:  MOVWF  77
+025D:  BCF    03.0
+025E:  RLF    77,W
+025F:  MOVWF  33
+....................    set_pwm1_duty(duty1);   
+0260:  MOVF   32,W
+0261:  MOVWF  15
+....................    set_pwm2_duty(duty2);   
+0262:  MOVF   33,W
+0263:  MOVWF  1B
+....................    }    
+....................   
+.................... //retrocede a la izquierda   
+....................    if(PWM1<128 && PWM2<=120){ 
+0264:  MOVF   30,W
+0265:  SUBLW  7F
+0266:  BTFSS  03.0
+0267:  GOTO   28A
+0268:  MOVF   31,W
+0269:  SUBLW  78
+026A:  BTFSS  03.0
+026B:  GOTO   28A
+....................     
+....................    output_low(PIN_D0); // apagar primero antes de prender otro 
+026C:  BSF    03.5
+026D:  BCF    08.0
+026E:  BCF    03.5
+026F:  BCF    08.0
+....................    output_high(PIN_D1);   
+0270:  BSF    03.5
+0271:  BCF    08.1
+0272:  BCF    03.5
+0273:  BSF    08.1
+....................    output_low(PIN_D2); 
+0274:  BSF    03.5
+0275:  BCF    08.2
+0276:  BCF    03.5
+0277:  BCF    08.2
+....................    output_high(PIN_D3); 
+0278:  BSF    03.5
+0279:  BCF    08.3
+027A:  BCF    03.5
+027B:  BSF    08.3
+....................     
+....................    //calculo de la velocidad de cada motor 
+....................    duty1=128-PWM1; 
+027C:  MOVF   30,W
+027D:  SUBLW  80
+027E:  MOVWF  32
+....................    duty2=120-PWM2+128-PWM1; 
+027F:  MOVF   31,W
+0280:  SUBLW  78
+0281:  ADDLW  80
+0282:  MOVWF  78
+0283:  MOVF   30,W
+0284:  SUBWF  78,W
+0285:  MOVWF  33
+....................    set_pwm1_duty(duty1);   
+0286:  MOVF   32,W
+0287:  MOVWF  15
+....................    set_pwm2_duty(duty2);  
+0288:  MOVF   33,W
+0289:  MOVWF  1B
+....................     
+....................    } 
+....................    
+.................... //retrocede a la derecha  
+....................    if(PWM1<128 && PWM2>=136){ 
+028A:  MOVF   30,W
+028B:  SUBLW  7F
+028C:  BTFSS  03.0
+028D:  GOTO   2B0
+028E:  MOVF   31,W
+028F:  SUBLW  87
+0290:  BTFSC  03.0
+0291:  GOTO   2B0
+....................     
+....................    output_low(PIN_D0); // apagar primero antes de prender otro 
+0292:  BSF    03.5
+0293:  BCF    08.0
+0294:  BCF    03.5
+0295:  BCF    08.0
+....................    output_high(PIN_D1);   
+0296:  BSF    03.5
+0297:  BCF    08.1
+0298:  BCF    03.5
+0299:  BSF    08.1
+....................    output_low(PIN_D2); 
+029A:  BSF    03.5
+029B:  BCF    08.2
+029C:  BCF    03.5
+029D:  BCF    08.2
+....................    output_high(PIN_D3); 
+029E:  BSF    03.5
+029F:  BCF    08.3
+02A0:  BCF    03.5
+02A1:  BSF    08.3
+....................     
+....................    //calculo de la velocidad de cada motor 
+....................    duty1=PWM2-136+128-PWM1; 
+02A2:  MOVLW  88
+02A3:  SUBWF  31,W
+02A4:  ADDLW  80
+02A5:  MOVWF  78
+02A6:  MOVF   30,W
+02A7:  SUBWF  78,W
+02A8:  MOVWF  32
+....................    duty2=128-PWM1; 
+02A9:  MOVF   30,W
+02AA:  SUBLW  80
+02AB:  MOVWF  33
+....................    set_pwm1_duty(duty1);   
+02AC:  MOVF   32,W
+02AD:  MOVWF  15
+....................    set_pwm2_duty(duty2);  
+02AE:  MOVF   33,W
+02AF:  MOVWF  1B
+....................     
+....................    } 
+....................     
+....................  } 
+02B0:  GOTO   182
+....................   
+.................... } 
+02B1:  SLEEP
+
+Configuration Fuses:
+   Word  1: 20D4   INTRC_IO NOWDT NOPUT NOMCLR NOPROTECT NOCPD NOBROWNOUT NOIESO NOFCMEN NOLVP NODEBUG
+   Word  2: 3FFF   NOWRT BORV40
