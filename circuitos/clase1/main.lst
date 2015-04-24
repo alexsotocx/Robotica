@@ -1,0 +1,211 @@
+CCS PCM C Compiler, Version 4.110, 5967               26-mar.-15 22:16
+
+               Filename: C:\Users\Alexander.AlexWindows\Documents\robotica\circuitos\main.lst
+
+               ROM used: 133 words (2%)
+                         Largest free fragment is 2048
+               RAM used: 5 (1%) at main() level
+                         7 (2%) worst case
+               Stack:    0 locations
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   004
+0003:  NOP
+.................... #include <16F887.h> 
+.................... //////// Standard Header file for the PIC16F887 device //////////////// 
+.................... #device PIC16F887 
+.................... #list 
+....................  
+.................... #device adc=8 
+....................  
+.................... #FUSES NOWDT                    //No Watch Dog Timer 
+.................... #FUSES INTRC_IO                 //Internal RC Osc, no CLKOUT 
+.................... #FUSES NOPUT                    //No Power Up Timer 
+.................... #FUSES NOMCLR                   //Master Clear pin used for I/O 
+.................... #FUSES NOPROTECT                //Code not protected from reading 
+.................... #FUSES NOCPD                    //No EE protection 
+.................... #FUSES NOBROWNOUT               //No brownout reset 
+.................... #FUSES NOIESO                   //Internal External Switch Over mode disabled 
+.................... #FUSES NOFCMEN                  //Fail-safe clock monitor disabled 
+.................... #FUSES NOLVP                    //No low voltage prgming, B3(PIC16) or B5(PIC18) used for I/O 
+.................... #FUSES NODEBUG                  //No Debug mode for ICD 
+.................... #FUSES NOWRT                    //Program memory not write protected 
+.................... #FUSES BORV40                   //Brownout reset at 4.0V 
+....................  
+.................... #use delay(int=4000000) 
+....................  
+....................  
+.................... void main() 
+.................... { 
+0004:  CLRF   04
+0005:  BCF    03.7
+0006:  MOVLW  1F
+0007:  ANDWF  03,F
+0008:  MOVLW  61
+0009:  BSF    03.5
+000A:  MOVWF  0F
+000B:  MOVF   0F,W
+000C:  BSF    03.6
+000D:  MOVF   09,W
+000E:  ANDLW  C0
+000F:  MOVWF  09
+0010:  BCF    03.6
+0011:  BCF    1F.4
+0012:  BCF    1F.5
+0013:  MOVLW  00
+0014:  BSF    03.6
+0015:  MOVWF  08
+0016:  BCF    03.5
+0017:  CLRF   07
+0018:  CLRF   08
+0019:  CLRF   09
+....................  
+....................    setup_adc_ports(sAN1|sAN2|VSS_VDD); 
+001A:  BSF    03.5
+001B:  MOVF   09,W
+001C:  ANDLW  C0
+001D:  MOVWF  09
+001E:  BCF    03.6
+001F:  BCF    1F.4
+0020:  BCF    1F.5
+0021:  MOVLW  06
+0022:  BSF    03.6
+0023:  MOVWF  08
+....................    setup_adc(ADC_CLOCK_INTERNAL); 
+0024:  BCF    03.5
+0025:  BCF    03.6
+0026:  BSF    1F.6
+0027:  BSF    1F.7
+0028:  BSF    03.5
+0029:  BCF    1F.7
+002A:  BCF    03.5
+002B:  BSF    1F.0
+....................    setup_timer_0(RTCC_INTERNAL|RTCC_DIV_1); 
+002C:  BSF    03.5
+002D:  MOVF   01,W
+002E:  ANDLW  C7
+002F:  IORLW  08
+0030:  MOVWF  01
+....................  
+....................    //TODO: User Code 
+....................     
+....................    int value1; 
+....................    int value2; 
+....................     
+....................     
+....................     
+....................    while(1) { 
+....................       set_adc_channel(1); 
+0031:  MOVLW  04
+0032:  MOVWF  78
+0033:  BCF    03.5
+0034:  MOVF   1F,W
+0035:  ANDLW  C3
+0036:  IORWF  78,W
+0037:  MOVWF  1F
+....................       value1= read_adc(); 
+0038:  BSF    1F.1
+0039:  BTFSC  1F.1
+003A:  GOTO   039
+003B:  MOVF   1E,W
+003C:  MOVWF  21
+....................     
+....................       set_adc_channel(2); 
+003D:  MOVLW  08
+003E:  MOVWF  78
+003F:  MOVF   1F,W
+0040:  ANDLW  C3
+0041:  IORWF  78,W
+0042:  MOVWF  1F
+....................       value2= read_adc(); 
+0043:  BSF    1F.1
+0044:  BTFSC  1F.1
+0045:  GOTO   044
+0046:  MOVF   1E,W
+0047:  MOVWF  22
+....................        
+....................       if(value1>128){ 
+0048:  MOVF   21,W
+0049:  SUBLW  80
+004A:  BTFSC  03.0
+004B:  GOTO   05D
+....................          output_high(PIN_D0); 
+004C:  BSF    03.5
+004D:  BCF    08.0
+004E:  BCF    03.5
+004F:  BSF    08.0
+....................          output_low(PIN_D1); 
+0050:  BSF    03.5
+0051:  BCF    08.1
+0052:  BCF    03.5
+0053:  BCF    08.1
+....................          output_high(PIN_D2); 
+0054:  BSF    03.5
+0055:  BCF    08.2
+0056:  BCF    03.5
+0057:  BSF    08.2
+....................          output_low(PIN_D3); 
+0058:  BSF    03.5
+0059:  BCF    08.3
+005A:  BCF    03.5
+005B:  BCF    08.3
+....................       } else if(value1<128) { 
+005C:  GOTO   082
+005D:  MOVF   21,W
+005E:  SUBLW  7F
+005F:  BTFSS  03.0
+0060:  GOTO   072
+....................          output_low(PIN_D0); 
+0061:  BSF    03.5
+0062:  BCF    08.0
+0063:  BCF    03.5
+0064:  BCF    08.0
+....................          output_high(PIN_D1); 
+0065:  BSF    03.5
+0066:  BCF    08.1
+0067:  BCF    03.5
+0068:  BSF    08.1
+....................          output_low(PIN_D2); 
+0069:  BSF    03.5
+006A:  BCF    08.2
+006B:  BCF    03.5
+006C:  BCF    08.2
+....................          output_high(PIN_D3); 
+006D:  BSF    03.5
+006E:  BCF    08.3
+006F:  BCF    03.5
+0070:  BSF    08.3
+....................       } else { 
+0071:  GOTO   082
+....................          output_low(PIN_D0); 
+0072:  BSF    03.5
+0073:  BCF    08.0
+0074:  BCF    03.5
+0075:  BCF    08.0
+....................          output_low(PIN_D1); 
+0076:  BSF    03.5
+0077:  BCF    08.1
+0078:  BCF    03.5
+0079:  BCF    08.1
+....................          output_low(PIN_D2); 
+007A:  BSF    03.5
+007B:  BCF    08.2
+007C:  BCF    03.5
+007D:  BCF    08.2
+....................          output_low(PIN_D3); 
+007E:  BSF    03.5
+007F:  BCF    08.3
+0080:  BCF    03.5
+0081:  BCF    08.3
+....................       } 
+....................    } 
+0082:  BSF    03.5
+0083:  GOTO   031
+.................... } 
+0084:  SLEEP
+
+Configuration Fuses:
+   Word  1: 20D4   INTRC_IO NOWDT NOPUT NOMCLR NOPROTECT NOCPD NOBROWNOUT NOIESO NOFCMEN NOLVP NODEBUG
+   Word  2: 3FFF   NOWRT BORV40

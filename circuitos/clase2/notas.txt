@@ -1,0 +1,12 @@
+modulaciòn por ancho de pulso: se transforma una señal analògica en digital. La magnitud de la señal analògica se representa con al ancho del pulso digital. Se muestrea cada cierto tiempo T.
+
+
+config: 
+
+PIC 16F887
+oscilador: 4MHz
+fuses: Internal RC Osc, no CLKOUT
+analogos: A1, A2; 0-Vdd, 0-255, internal 2-6us
+other: PWM en CCP1 y CCP2. frecuencia: 400Hz, duty cycle (Amplitud del pulso): 0
+timers: timer2: 200Hz en CCP1 -> overflow: 255 (4ms) interrupt: 1
+ 
