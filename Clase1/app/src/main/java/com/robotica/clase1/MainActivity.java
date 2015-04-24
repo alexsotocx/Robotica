@@ -126,7 +126,7 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
     try {
       if (connection != null) {
         mTextConnectionStatus.setText(connection.client.conection());
-        connection.client.sendMessage(""+ _7E + B1 + B2 + S1 + S2);
+        connection.client.sendMessage(""+ _7E + "0" +  B1 + B2 + S2 + S1);
       }
     } catch (Exception e) {
       //mTextConnectionStatus.setText("Error");
@@ -173,7 +173,7 @@ public class MainActivity extends ActionBarActivity implements CompoundButton.On
       float z = event.values[2];
 
       long currentTime = System.currentTimeMillis();
-      if ((currentTime - lastUpdate) > 300) {
+      if ((currentTime - lastUpdate) > 10) {
         lastUpdate = currentTime;
         mSeekBar.setProgress((int) (z * 10));
         mSeekBar2.setProgress((int) (y * 5 + 50));
