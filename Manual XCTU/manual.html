@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>XCTU - Manual</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/foundation.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="app.css">
+</head>
+<body>
+	<div class="row text-center">
+		<h1 style="color: navy">Manual de configuración - Modulo Wifly</h1>
+		<div class="drop-shadow"></div>
+	</div>
+	<div class="content" >
+
+		<div class="row"data-equalizer="row1">
+			<div class="small-5 large-5 columns step" data-equalizer-watch="row1">
+				<div class="step-number text-center">1</div>
+				<h3>Conexión e instalación</h3>
+				<hr>
+				<p>Para comenzar, se inicia con la conexión del <b>Módulo wifly</b> conectandolo via USB al ordenador. El modulo wifly será el encargado
+				de interconectar el <b>cliente android</b> que contiene la aplicación, con el robot a controlar.</p>
+				<div class="text-center">
+					<img src="img/screen1.png"><br>
+					<span class="caption">Módulo wifly conectado al ordenador</span>
+				</div>
+				<p><b>Nota: </b> El modulo wifly requiere la instalación del driver para funcionar correctamente</p> 
+			</div>
+			<div class="small-1 large-2 columns text-center " data-equalizer-watch="row1">
+				<i class="fa fa-arrow-right fa-4x arrows"></i>
+			</div>
+			<div class="small-5 large-5 columns step" data-equalizer-watch="row1">
+				<div class="step-number text-center">2</div>
+				<h3>XCTU-Terminal</h3>
+				<hr>
+				<p>La terminal es la herramienta que se  utilizar para configuar el módulo, para conectarse satisfactoriamente se debe configurar los siguientes parametros como se muestran en la imagen:
+				</p>
+				<ul>
+					<li>Puero COM</li>
+					<li>BAUD</li>
+				</ul>
+				<div class="text-center">
+					<img src="img/screen2.png"/>
+					<span class="caption">Configuración XCTU</span>
+				</div>
+				<p><b>Nota: </b> El modulo wifly puede estar conectado en otro puerto COM</p> 
+			</div>
+		</div>
+		<div class="row">
+			<div class="small-5 large-5  columns text-center small-offset-7 large-offset-7 ">
+				<i class="fa fa-arrow-down fa-4x arrows" style="position: relative; top: auto; left: auto;"></i>
+			</div>
+		</div>
+		<div class="row" data-equalizer="row2">
+			<div class="small-5 large-5 columns step" data-equalizer-watch="row2">
+				<div class="step-number text-center">4</div>
+				<h3>Configuración IP</h3>
+				<hr>
+				<p>Esta configuración parametriza toda la capa de red en el módulo wifly, como la dirección ip, mascara puerto,</p>
+				<p>Ingresar los siguientes comandos: </p>
+				<ol>
+					<li>set ip address 192.168.43.XX (dirección ip de la red)</li>
+					<li>set ip port 2000</li>
+					<li>set ip netmask 255.255.255.0</li>
+					<li>set ip dhcp 0</li>
+					<li>set ip protocol 2</li>
+					<li>save</li>
+					<li>reboot</li>
+				</ol>
+				
+			</div>
+			<div class="small-1 large-2 columns text-center" data-equalizer-watch="row2">
+				<i class="fa fa-arrow-left fa-4x arrows"></i>
+			</div>
+			<div class="small-5 large-5 columns step" data-equalizer-watch="row2">
+				<div class="step-number text-center">3</div>
+				<h3>Configuración WLAN</h3>
+				<hr>
+				<p>Esta configuración parametriza toda la conexión via inalámbrica en el módulo wifly, como el nombre de la red y su password, se comienza por usar la pestaña <b>Terminal</b> del programa X-CTU, para iniciar la terminal presionar repetidamente el caracter <b>$</b> simbolo de dolar.</p>
+				<p>Ingresar los siguientes comandos: </p>
+				<ol>
+					<li>factory RESET</li>
+					<li>set wlan ssid (nombre de la zona wifi)</li>
+					<li>set wlan phrase (password de la zona wifi)</li>
+					<li>set wlan auth (auth numero) (4 para wpa2-psk, depende del tipo de seguridad)</li>
+					<li>set wlan channel 0</li>
+					<li>set wlan join 1</li>
+					<li>save</li>
+				</ol>
+				<div class="text-center">
+					<img src="img/screen3.png"><br>
+					<span class="caption">Módulo wifly, configuración WLAN</span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="small-12 large-12  columns text-center ">
+				<i class="fa fa-arrow-down fa-4x arrows" style="position: relative; top: auto; left: auto;"></i>
+			</div>
+		</div>
+		<div class="row">
+			<div class="small-8 large-8 small-centered large-centered columns step" >
+				<div class="step-number text-center">5</div>
+				<h3>Probar resultados</h3>
+				<hr>
+				<p>Conecta el dispositivo android y el modulo wifly a lá misma red, con la aplicación que utilizas para conectarte con el robot enviale datos al wifly y observa los resultados</p>
+				<div class="row" style="padding: 20px" data-equalizer="row3">
+					<div class="large-5 columns text-center" data-equalizer-watch="row3">
+						<img src="img/screen4.png"><br>
+						<span class="caption">Aplicativo de control</span>
+					</div>
+					<div class="large-1 columns text-center" data-equalizer-watch="row3">
+						<i class="fa fa-arrow-right fa-3x arrows"></i>
+					</div>
+					<div class="large-5 columns text-center" data-equalizer-watch="row3">
+						<img src="img/screen5.jpg"><br>
+						<span class="caption">Respuesta de XCTU</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	<footer style="margin: 20px">
+		<div class="text-center">
+			<p><b>Creado por:</b></p>
+			<p>Gustavo Angarita - Andrés Gonzales - Sebastian Torres - Alexander Soto</p>
+		</div>
+	</footer>
+	</div>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/js/foundation.min.js"></script>
+	<script>
+    $(document).foundation();
+  </script>
+</body>
+</html>
