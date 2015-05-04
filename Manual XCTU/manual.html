@@ -38,8 +38,8 @@
 				<p>La terminal es la herramienta que se utilizará para configuar el módulo. Para conectarse satisfactoriamente se deben configurar como se muestra en la imagen los siguientes parámetros:
 				</p>
 				<ul>
-					<li>Puerto COM</li>
-					<li>BAUD</li>
+					<li>Puerto COM <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="Especifica el puero de comunicación del dispositivo con el computador, este puerto puede variar dependiendo de la ranura donde se coencte el dispositivo"><span class="tooltip-helper">?</span></span></li>
+					<li>BAUD <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="Especifica la tasa de transferencia del computador al dispositivo. Se utiliza como medio regulador."><span class="tooltip-helper">?</span></span></li>
 				</ul>
 				<div class="text-center">
 					<img src="img/screen2.png"/>
@@ -84,13 +84,13 @@
 				<p>Esta configuración parametriza toda la conexión inalámbrica en el módulo wifly, estableciendo atributos como el nombre de la red y su password. Para comenzar, se debe seleccionar la pestaña <b>Terminal</b> del programa X-CTU. Para iniciar la terminal, presionar repetidamente el caracter <b>$</b> (símbolo de dólar).</p>
 				<p>Ingresar los siguientes comandos: </p>
 				<ol>
-					<li>factory RESET</li>
-					<li>set wlan ssid (nombre de la zona WiFi)</li>
-					<li>set wlan phrase (password de la zona WiFi)</li>
-					<li>set wlan auth X (reemplace la X por 4 para WPA2-PSK; el valor de este atributo depende del tipo de seguridad)</li>
+					<li>factory RESET <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="Reinicia toda la configuración a un estado de fabrica, se hace por cuestiones de facilidad y para evitar errores"><span class="tooltip-helper">?</span></span></li>
+					<li>set wlan ssid XX <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="SSID refiere al nombre de la zona wifi a la que se va a conectar el dispositivo. Reemplace XX con el nombre de la red a la que se queire conectar el dispositivo"><span class="tooltip-helper">?</span></span></li>
+					<li>set wlan phrase XX <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="PHRASE refiere a la contraseña a de la red a la que se va conectar. Reemplace XX por esta contraseña, asegurece de estas contraseñas coincidan para una conexión satisfactoria."><span class="tooltip-helper">?</span></span></li>
+					<li>set wlan auth X <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="AUTH refiere del modo de seguridad de autenticación en la red, existen varios tipos de seguridad como WPA, WPA2, WEP. Reemplace la X por 4 para WPA2-PSK; el valor de este atributo depende del tipo de seguridad"><span class="tooltip-helper">?</span></span></li>
 					<li>set wlan channel 0</li>
-					<li>set wlan join 1</li>
-					<li>save</li>
+					<li>set wlan join 1 <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="Este modo especifica si se conectará automaticamente o esperá el comando de conexión. Se utiliza 1 para autoconexión y 0 para modo manual"><span class="tooltip-helper">?</span></span></li>
+					<li>save <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="Guarda la configuración actual en el dispositivo."><span class="tooltip-helper">?</span></span></li>
 				</ol>
 				<div class="text-center">
 					<img src="img/screen3.png"><br>
