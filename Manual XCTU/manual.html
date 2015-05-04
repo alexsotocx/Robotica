@@ -6,6 +6,8 @@
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/foundation.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="app.css">
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/vendor/modernizr.js"></script>
 </head>
 <body>
 	<div class="row text-center">
@@ -60,15 +62,18 @@
 				<p>Esta configuración parametriza toda la capa de red en el módulo wifly, como la dirección ip, mascara puerto,</p>
 				<p>Ingresar los siguientes comandos: </p>
 				<ol>
-					<li>set ip address 192.168.43.XX (dirección ip de la red)</li>
-					<li>set ip port 2000</li>
-					<li>set ip netmask 255.255.255.0</li>
-					<li>set ip dhcp 0</li>
-					<li>set ip protocol 2</li>
-					<li>save</li>
-					<li>reboot</li>
+					<li>set ip address 192.168.43.XX <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="Se refiere a la dirección de red que va a tomar el dispositivo, esta se usará para identifcarlo en la red y será util para poder acceder al mismo. Nota: Este dirección debe pertenecer a la red que se va utilizar para interconectar los dispositivos."><span class="tooltip-helper">?</span></span></li>
+					<li>set ip port 2000 <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="El puerto es usado durante la comunicación como la puerta de enlace. Por defecto se usa el 2000; este debe coincidir con el usado en la aplicación para mandar los datos al dispositivo"><span class="tooltip-helper">?</span></span></li>
+					<li>set ip netmask 255.255.255.0 <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="La mascara de red especifica en la red el segmento de direcciones IP usables por los host. Nota: Se debe asegurar que la mascara sea correcta y coincida con la definida en la red."><span class="tooltip-helper">?</span></span></li>
+					<li>set ip dhcp 0 <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="El dhcp es un servicio para brindar una dirección IP al host, se especifica en 0 para apagarlo y en 1 para encederlo. Se recomienda no encender este servicio, ya que la dirección ip para poder conectarse sin inconveniente debería ser estática."><span class="tooltip-helper">?</span></span></li>
+					<li>set ip protocol 2 <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="El protocolo es la forma de comunicación que se va a utilizar, la opción número 2 especifica TCP."><span class="tooltip-helper">?</span></span></li>
+					<li>save <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="Guarda la configuración actual en el dispositivo."><span class="tooltip-helper">?</span></span></li>
+					<li>reboot <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="Reinicia el dispositivo para arrancar con la nueva configuración."><span class="tooltip-helper">?</span></span></li>
 				</ol>
-				
+				<div class="text-center">
+					<img src="img/screen5.png"><br>
+					<span class="caption">Módulo wifly, configuración IP, reinicio y conexión a la red</span>
+				</div>
 			</div>
 			<div class="small-1 large-2 columns text-center" data-equalizer-watch="row2">
 				<i class="fa fa-arrow-left fa-4x arrows"></i>
@@ -129,6 +134,7 @@
 	</div>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/js/foundation.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation/foundation.tooltip.min.js"></script>
 	<script>
     $(document).foundation();
   </script>

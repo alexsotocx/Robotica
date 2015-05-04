@@ -2,7 +2,7 @@
   box-shadow: 0 5px 3px navy;
   height: 1px; }
 
-.step-number {
+.step-number, .tooltip-helper {
   border-radius: 50%;
   background-color: navy;
   color: white;
@@ -10,7 +10,9 @@
   font-size: 30px;
   width: 45px;
   height: 45px;
-  display: inline-block; }
+  display: inline-block;
+  line-height: 45px;
+  text-align: center; }
 
 .step {
   border-radius: 8px;
@@ -46,5 +48,20 @@
   font-style: italic;
   font-size: 12px;
   color: #888; }
+
+.tooltip-helper {
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 15px; }
+
+li {
+  line-height: 30px; }
+
+.tooltip.radius {
+  border-radius: 8px; }
+
+.has-tip {
+  border: none; }
 
 /*# sourceMappingURL=app.css.map */

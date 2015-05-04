@@ -1,0 +1,70 @@
+
+.drop-shadow
+	box-shadow: 0 5px 3px navy
+	height: 1px
+
+.step-number
+	border-radius: 50%
+	background-color: navy
+	color: white
+	font-weight: bold
+	font-size: 30px
+	width: 45px
+	height: 45px
+	display: inline-block
+	line-height: 45px
+	text-align: center
+
+.step
+	border-radius: 8px
+	border: 2px groove navy	
+	box-shadow: 2px 2px 3px navy
+	padding: 10px
+
+
+.content
+	padding: 20px
+
+.step h1, h2, h3, h4, h5
+	display: inline-block
+	margin-left: 5px
+
+.step hr
+	margin: 2px
+
+.step p, ul, ol
+	text-align: justify
+	margin-bottom: 3px
+
+
+.arrows
+	color: navy
+	text-align: center
+	top: calc(50% - (25% / 2))
+	left: calc(50% - (30% / 2))
+	position: absolute
+
+.content > .row
+	margin-top: 20px
+
+.caption
+	font-style: italic
+	font-size: 12px
+	color: #888
+
+.tooltip-helper
+	@extend .step-number
+	width: 20px
+	height: 20px
+	line-height: 20px
+	font-size: 15px
+
+li
+	line-height: 30px
+
+.tooltip.radius
+	border-radius: 8px
+
+.has-tip
+	border: none
+	
