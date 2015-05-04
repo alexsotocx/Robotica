@@ -21,13 +21,12 @@
 				<div class="step-number text-center">1</div>
 				<h3>Conexión e instalación</h3>
 				<hr>
-				<p>Para comenzar, se inicia con la conexión del <b>Módulo wifly</b> conectandolo via USB al ordenador. El modulo wifly será el encargado
-				de interconectar el <b>cliente android</b> que contiene la aplicación, con el robot a controlar.</p>
+				<p>Para comenzar, es necesario conectar el <b>Módulo wifly</b> con el ordenador vía USB. El módulo wifly será el encargado de la comunicación entre el <b>cliente android</b> (que contiene la aplicación) y el robot a controlar.</p>
 				<div class="text-center">
 					<img src="img/screen1.png"><br>
 					<span class="caption">Módulo wifly conectado al ordenador</span>
 				</div>
-				<p><b>Nota: </b> El modulo wifly requiere la instalación del driver para funcionar correctamente</p> 
+				<p><b>Nota:</b> El módulo wifly requiere la instalación del driver FT232 para funcionar correctamente.</p> 
 			</div>
 			<div class="small-1 large-2 columns text-center " data-equalizer-watch="row1">
 				<i class="fa fa-arrow-right fa-4x arrows"></i>
@@ -36,17 +35,17 @@
 				<div class="step-number text-center">2</div>
 				<h3>XCTU-Terminal</h3>
 				<hr>
-				<p>La terminal es la herramienta que se  utilizar para configuar el módulo, para conectarse satisfactoriamente se debe configurar los siguientes parametros como se muestran en la imagen:
+				<p>La terminal es la herramienta que se utilizará para configuar el módulo. Para conectarse satisfactoriamente se deben configurar como se muestra en la imagen los siguientes parámetros:
 				</p>
 				<ul>
-					<li>Puero COM</li>
+					<li>Puerto COM</li>
 					<li>BAUD</li>
 				</ul>
 				<div class="text-center">
 					<img src="img/screen2.png"/>
 					<span class="caption">Configuración XCTU</span>
 				</div>
-				<p><b>Nota: </b> El modulo wifly puede estar conectado en otro puerto COM</p> 
+				<p><b>Nota: </b> El módulo wifly puede estar conectado en otro puerto COM.</p> 
 			</div>
 		</div>
 		<div class="row">
@@ -59,10 +58,10 @@
 				<div class="step-number text-center">4</div>
 				<h3>Configuración IP</h3>
 				<hr>
-				<p>Esta configuración parametriza toda la capa de red en el módulo wifly, como la dirección ip, mascara puerto,</p>
+				<p>Esta configuración parametriza toda la capa de red y de transporte en el módulo wifly, estableciendo atributos como la dirección IP, máscara, puerto, etc.</p>
 				<p>Ingresar los siguientes comandos: </p>
 				<ol>
-					<li>set ip address 192.168.43.XX <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="Se refiere a la dirección de red que va a tomar el dispositivo, esta se usará para identifcarlo en la red y será util para poder acceder al mismo. Nota: Este dirección debe pertenecer a la red que se va utilizar para interconectar los dispositivos."><span class="tooltip-helper">?</span></span></li>
+					<li>set ip address 192.168.43.XX <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="Se refiere a la dirección de red que va a tomar el dispositivo, esta se usará para identifcarlo en la red y será util para poder acceder al mismo(XX se puede reemplazar por cualquier número entre 0 y 254 mientras éste no esté siendo usado por otro dispositivo). Nota: Este dirección debe pertenecer a la red que se va utilizar para interconectar los dispositivos."><span class="tooltip-helper">?</span></span></li>
 					<li>set ip port 2000 <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="El puerto es usado durante la comunicación como la puerta de enlace. Por defecto se usa el 2000; este debe coincidir con el usado en la aplicación para mandar los datos al dispositivo"><span class="tooltip-helper">?</span></span></li>
 					<li>set ip netmask 255.255.255.0 <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="La mascara de red especifica en la red el segmento de direcciones IP usables por los host. Nota: Se debe asegurar que la mascara sea correcta y coincida con la definida en la red."><span class="tooltip-helper">?</span></span></li>
 					<li>set ip dhcp 0 <span data-tooltip aria-haspopup="true" class="has-tip tip-right radius" title="El dhcp es un servicio para brindar una dirección IP al host, se especifica en 0 para apagarlo y en 1 para encederlo. Se recomienda no encender este servicio, ya que la dirección ip para poder conectarse sin inconveniente debería ser estática."><span class="tooltip-helper">?</span></span></li>
@@ -82,13 +81,13 @@
 				<div class="step-number text-center">3</div>
 				<h3>Configuración WLAN</h3>
 				<hr>
-				<p>Esta configuración parametriza toda la conexión via inalámbrica en el módulo wifly, como el nombre de la red y su password, se comienza por usar la pestaña <b>Terminal</b> del programa X-CTU, para iniciar la terminal presionar repetidamente el caracter <b>$</b> simbolo de dolar.</p>
+				<p>Esta configuración parametriza toda la conexión inalámbrica en el módulo wifly, estableciendo atributos como el nombre de la red y su password. Para comenzar, se debe seleccionar la pestaña <b>Terminal</b> del programa X-CTU. Para iniciar la terminal, presionar repetidamente el caracter <b>$</b> (símbolo de dólar).</p>
 				<p>Ingresar los siguientes comandos: </p>
 				<ol>
 					<li>factory RESET</li>
-					<li>set wlan ssid (nombre de la zona wifi)</li>
-					<li>set wlan phrase (password de la zona wifi)</li>
-					<li>set wlan auth (auth numero) (4 para wpa2-psk, depende del tipo de seguridad)</li>
+					<li>set wlan ssid (nombre de la zona WiFi)</li>
+					<li>set wlan phrase (password de la zona WiFi)</li>
+					<li>set wlan auth X (reemplace la X por 4 para WPA2-PSK; el valor de este atributo depende del tipo de seguridad)</li>
 					<li>set wlan channel 0</li>
 					<li>set wlan join 1</li>
 					<li>save</li>
@@ -109,13 +108,13 @@
 				<div class="step-number text-center">5</div>
 				<h3>Probar resultados</h3>
 				<hr>
-				<p>Conecta el dispositivo android y el modulo wifly a lá misma red, con la aplicación que utilizas para conectarte con el robot enviale datos al wifly y observa los resultados</p>
+				<p>Para verificar que se haya configurado correctamente el módulo, se debe conectar el dispositivo android y el módulo wifly a la misma red, luego correr la aplicación que se utilizará para comunicarse con el robot y finalmente presionar el botón "Show Hex" de X-CTU. Hecho esto, puede comenzar el envío datos al wifly. Los resultados se ven de manera similar a los mostrados en la siguiente captura:</p>
 				<div class="row" style="padding: 20px" data-equalizer="row3">
 					<div class="large-5 columns text-center" data-equalizer-watch="row3">
 						<img src="img/screen4.png"><br>
-						<span class="caption">Aplicativo de control</span>
+						<span class="caption">Aplicación de control</span>
 					</div>
-					<div class="large-1 columns text-center" data-equalizer-watch="row3">
+					<div class="large-2 columns text-center" data-equalizer-watch="row3">
 						<i class="fa fa-arrow-right fa-3x arrows"></i>
 					</div>
 					<div class="large-5 columns text-center" data-equalizer-watch="row3">
